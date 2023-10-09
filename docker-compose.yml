@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:12.1
+    volumes:
+      - ./docker/postgres:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASES: >-
+        library,
+    ports:
+      - "5432:5432"
+
+  library:
+    build:
+      context: ./services/api
+      target: dev
+    container_name: library
+    command: /code/start-dev.sh
+    env_file: ./services/api/.env
+    volumes:
+      - ./services/api:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
