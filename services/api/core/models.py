@@ -7,7 +7,7 @@ class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateTimeField(default=None)
+    deleted_at = models.DateTimeField(default=None, null=True)
 
     class Meta:
         abstract = True
